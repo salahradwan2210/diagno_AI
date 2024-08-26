@@ -1,0 +1,702 @@
+
+
+{% extends "basic.html" %}
+{% load static %}
+
+ 
+    {% block head %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'patient/checkdisease/dps.css' %}">   
+ 
+
+
+<script>
+
+  /* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+// Symptom relation dictionary
+const symptoms_relation = {
+    'itching': ['skin_rash', 'nodal_skin_eruptions', 'continuous_sneezing'],
+    'skin_rash': ['itching', 'nodal_skin_eruptions', 'redness_of_eyes'],
+    'nodal_skin_eruptions': ['skin_rash', 'itching', 'red_spots_over_body'],
+    'continuous_sneezing': ['runny_nose', 'congestion', 'sinus_pressure'],
+    'shivering': ['chills', 'high_fever', 'fatigue'],
+    'chills': ['fever', 'sweating', 'shivering'],
+    'joint_pain': ['muscle_pain', 'swelling_joints', 'stiff_neck','neck_pain'],
+    'stomach_pain': ['abdominal_pain', 'diarrhoea', 'constipation'],
+    'acidity': ['stomach_pain', 'indigestion', 'vomiting'],
+    'ulcers_on_tongue': ['burning_micturition', 'spotting_urination', 'vomiting'],
+    'muscle_wasting': ['muscle_weakness', 'fatigue', 'joint_pain'],
+    'vomiting': ['nausea', 'stomach_pain', 'diarrhoea'],
+    'burning_micturition': ['spotting_urination', 'pain_during_bowel_movements', 'ulcers_on_tongue'],
+    'spotting_urination': ['burning_micturition', 'bladder_discomfort', 'foul_smell_of_urine'],
+    'fatigue': ['weakness_in_limbs', 'breathlessness', 'fever',],
+    'weight_gain': ['obesity', 'increased_appetite', 'lethargy'],
+    'anxiety': ['restlessness', 'irritability', 'depression'],
+    'cold_hands_and_feets': ['anxiety', 'restlessness', 'shivering'],
+    'mood_swings': ['anxiety', 'irritability', 'depression'],
+    'weight_loss': ['fatigue', 'anxiety', 'increased_appetite'],
+    'restlessness': ['anxiety', 'irritability', 'cold_hands_and_feets'],
+    'lethargy': ['fatigue', 'dizziness', 'weakness_in_limbs'],
+    'patches_in_throat': ['sore_throat', 'cough', 'throat_irritation'],
+    'irregular_sugar_level': ['increased_appetite', 'fatigue', 'weight_loss'],
+    'cough': ['chest_pain', 'phlegm', 'throat_irritation', 'congestion', 'sinus_pressure', 'breathlessness'],
+    'high_fever': ['chills', 'shivering', 'sweating', 'dehydration'],
+    'sunken_eyes': ['dehydration', 'fatigue', 'yellowish_skin'],
+    'breathlessness': ['cough', 'chest_pain', 'fatigue'],
+    'sweating': ['fever', 'chills', 'fatigue'],
+    'dehydration': ['sunken_eyes', 'lethargy', 'fatigue'],
+    'indigestion': ['acidity', 'vomiting', 'stomach_pain'],
+    'headache': ['fever', 'nausea', 'blurred_and_distorted_vision'],
+    'yellowish_skin': ['jaundice', 'dark_urine', 'sunken_eyes'],
+    'dark_urine': ['jaundice', 'yellowish_skin', 'loss_of_appetite'],
+    'nausea': ['vomiting', 'indigestion', 'loss_of_appetite'],
+    'loss_of_appetite': ['nausea', 'fatigue', 'dark_urine','yellowish_skin'],
+    'pain_behind_the_eyes': ['headache', 'blurred_and_distorted_vision', 'dizziness'],
+    'back_pain': ['muscle_pain', 'joint_pain', 'stiff_neck'],
+    'constipation': ['abdominal_pain', 'stomach_pain', 'pain_during_bowel_movements'],
+    'abdominal_pain': ['constipation', 'stomach_pain', 'diarrhoea'],
+    'diarrhoea': ['abdominal_pain', 'stomach_pain', 'dehydration','sunken_eyes'],
+    'mild_fever': ['fatigue', 'chills', 'sweating'],
+    'yellow_urine': ['dehydration', 'dark_urine', 'jaundice'],
+    'yellowing_of_eyes': ['jaundice', 'yellowish_skin', 'dark_urine'],
+    'acute_liver_failure': ['jaundice', 'yellowish_skin', 'abdominal_pain'],
+    'fluid_overload': ['swelling_of_stomach', 'swelled_lymph_nodes', 'swollen_extremeties'],
+    'swelling_of_stomach': ['fluid_overload', 'swelled_lymph_nodes', 'abdominal_pain'],
+    'swelled_lymph_nodes': ['fluid_overload', 'swelling_of_stomach', 'malaise'],
+    'malaise': ['fatigue', 'headache', 'fever'],
+    'blurred_and_distorted_vision': ['headache', 'pain_behind_the_eyes', 'visual_disturbances'],
+    'phlegm': ['cough', 'throat_irritation', 'chest_pain'],
+    'throat_irritation': ['cough', 'phlegm', 'patches_in_throat'],
+    'redness_of_eyes': ['itching', 'skin_rash', 'watering_from_eyes'],
+    'sinus_pressure': ['congestion', 'runny_nose', 'headache'],
+    'runny_nose': ['sinus_pressure', 'congestion', 'continuous_sneezing'],
+    'congestion': ['sinus_pressure', 'runny_nose', 'cough'],
+    'chest_pain': ['cough', 'breathlessness', 'phlegm'],
+    'weakness_in_limbs': ['fatigue', 'lethargy', 'muscle_weakness'],
+    'fast_heart_rate': ['anxiety', 'palpitations', 'dizziness'],
+    'pain_during_bowel_movements': ['constipation', 'abdominal_pain', 'irritation_in_anus'],
+    'pain_in_anal_region': ['constipation', 'irritation_in_anus', 'pain_during_bowel_movements'],
+    'bloody_stool': ['pain_in_anal_region', 'constipation', 'abdominal_pain'],
+    'irritation_in_anus': ['pain_in_anal_region', 'constipation', 'pain_during_bowel_movements'],
+    'neck_pain': ['stiff_neck', 'joint_pain', 'muscle_pain'],
+    'dizziness': ['headache', 'fatigue', 'weakness_in_limbs'],
+    'cramps': ['abdominal_pain', 'muscle_pain', 'pain_during_bowel_movements'],
+    'bruising': ['swelling_joints', 'pain_in_anal_region', 'muscle_pain'],
+    'obesity': ['weight_gain', 'increased_appetite', 'joint_pain'],
+    'swollen_legs': ['fluid_overload', 'swollen_extremeties', 'puffy_face_and_eyes'],
+    'swollen_blood_vessels': ['swelling_of_stomach', 'fluid_overload', 'swelled_lymph_nodes'],
+    'puffy_face_and_eyes': ['fluid_overload', 'swollen_extremeties', 'swollen_legs'],
+    'enlarged_thyroid': ['swelling_joints', 'fatigue', 'weight_gain'],
+    'brittle_nails': ['inflammatory_nails', 'swelling_joints', 'drying_and_tingling_lips'],
+    'swollen_extremeties': ['fluid_overload', 'swollen_legs', 'puffy_face_and_eyes'],
+    'excessive_hunger': ['increased_appetite', 'polyuria', 'weight_gain'],
+    'extra_marital_contacts': ['depression', 'anxiety', 'irritability'],
+    'drying_and_tingling_lips': ['slurred_speech', 'brittle_nails', 'irritability'],
+    'slurred_speech': ['dizziness', 'drying_and_tingling_lips', 'headache'],
+    'knee_pain': ['joint_pain', 'muscle_pain', 'hip_joint_pain'],
+    'hip_joint_pain': ['knee_pain', 'muscle_pain', 'joint_pain'],
+    'muscle_weakness': ['fatigue', 'muscle_wasting', 'weakness_in_limbs'],
+    'stiff_neck': ['neck_pain', 'joint_pain', 'back_pain'],
+    'swelling_joints': ['joint_pain', 'bruising', 'pain_during_bowel_movements'],
+    'movement_stiffness': ['joint_pain', 'stiff_neck', 'muscle_pain'],
+    'spinning_movements': ['dizziness', 'headache', 'weakness_of_one_body_side'],
+    'loss_of_balance': ['dizziness', 'spinning_movements', 'weakness_of_one_body_side'],
+    'unsteadiness': ['dizziness', 'loss_of_balance', 'weakness_of_one_body_side','spinning_movements'],
+    'weakness_of_one_body_side': ['spinning_movements', 'loss_of_balance', 'unsteadiness'],
+    'loss_of_smell': ['congestion', 'sinus_pressure', 'runny_nose'],
+    'bladder_discomfort': ['spotting_urination', 'burning_micturition', 'foul_smell_of_urine'],
+    'foul_smell_of_urine': ['bladder_discomfort', 'spotting_urination', 'burning_micturition'],
+    'continuous_feel_of_urine': ['spotting_urination', 'burning_micturition', 'bladder_discomfort'],
+    'passage_of_gases': ['abdominal_pain', 'stomach_pain', 'indigestion'],
+    'internal_itching': ['itching', 'skin_rash', 'red_spots_over_body'],
+    'toxic_look_(typhos)': ['fever', 'headache', 'fatigue'],
+    'depression': ['anxiety', 'irritability', 'mood_swings'],
+    'irritability': ['anxiety', 'depression', 'mood_swings'],
+    'muscle_pain': ['joint_pain', 'back_pain', 'stiff_neck'],
+    'altered_sensorium': ['dizziness', 'spinning_movements', 'loss_of_balance'],
+    'red_spots_over_body': ['skin_rash', 'nodal_skin_eruptions', 'internal_itching'],
+    'belly_pain': ['abdominal_pain', 'stomach_pain', 'constipation'],
+    'abnormal_menstruation': ['fatigue', 'mood_swings', 'depression'],
+    'dischromic _patches': ['itching', 'skin_rash', 'red_spots_over_body'],
+    'watering_from_eyes': ['redness_of_eyes', 'blurred_and_distorted_vision', 'sinus_pressure'],
+    'increased_appetite': ['excessive_hunger', 'polyuria', 'weight_gain'],
+    'polyuria': ['increased_appetite', 'excessive_hunger', 'weight_gain'],
+    'family_history': ['depression', 'anxiety', 'irritability'],
+    'mucoid_sputum': ['cough', 'phlegm', 'throat_irritation'],
+    'rusty_sputum': ['cough', 'phlegm', 'throat_irritation'],
+    'lack_of_concentration': ['fatigue', 'depression', 'anxiety'],
+    'visual_disturbances': ['blurred_and_distorted_vision', 'headache', 'pain_behind_the_eyes'],
+    'receiving_blood_transfusion': ['fever', 'chills', 'fatigue'],
+    'receiving_unsterile_injections': ['fever', 'chills', 'fatigue'],
+    'coma': ['altered_sensorium', 'loss_of_balance', 'spinning_movements'],
+    'stomach_bleeding': ['stomach_pain', 'abdominal_pain', 'vomiting'],
+    'distention_of_abdomen': ['abdominal_pain', 'stomach_pain', 'fluid_overload'],
+    'history_of_alcohol_consumption': ['fatigue', 'nausea', 'abdominal_pain','constipation'],
+    'fluid_overload': ['swelling_of_stomach', 'swelled_lymph_nodes', 'swollen_extremeties'],
+    'blood_in_sputum': ['cough', 'rusty_sputum', 'phlegm'],
+    'prominent_veins_on_calf': ['painful_walking', 'swollen_legs', 'fluid_overload'],
+    'palpitations': ['fast_heart_rate', 'anxiety', 'dizziness'],
+    'painful_walking': ['joint_pain', 'hip_joint_pain', 'swollen_legs'],
+    'pus_filled_pimples': ['skin_rash', 'itching', 'scurring'],
+    'blackheads': ['pus_filled_pimples', 'skin_rash', 'scurring'],
+    'scurring': ['pus_filled_pimples', 'skin_rash', 'blackheads'],
+    'skin_peeling': ['itching', 'skin_rash', 'red_spots_over_body'],
+    'silver_like_dusting': ['skin_rash', 'itching', 'scurring'],
+    'small_dents_in_nails': ['brittle_nails', 'inflammatory_nails', 'swelling_joints'],
+    'inflammatory_nails': ['brittle_nails', 'small_dents_in_nails', 'swelling_joints'],
+    'blister': ['itching', 'skin_rash', 'red_spots_over_body'],
+    'red_sore_around_nose': ['skin_rash', 'blister', 'yellow_crust_ooze'],
+    'yellow_crust_ooze': ['red_sore_around_nose', 'blister', 'skin_rash']
+};
+
+function Functionshow() {
+    document.getElementById("searchbar").value = '';
+    document.getElementById("myDropdown").classList.toggle("show");
+    search_symptoms();
+}
+
+window.onclick = function(event) {
+    if (!event.target.matches('.btn')) {
+        if (!event.target.matches('.searchbardiv')){
+            if (!event.target.matches('.searchbar')){
+                var dropdowns = document.getElementsByClassName("drop-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    }
+}
+
+function Functionsymptoms(name) {
+    var newItem = document.createElement("TEXTAREA");
+    newItem.innerText = name;
+    newItem.setAttribute("id", "symptoms");
+    newItem.setAttribute("class", "symptoms");
+    document.getElementById("sympbox").appendChild(newItem);
+    
+    // Display related symptoms
+    displayRelatedSymptoms(name);
+}
+
+function displayRelatedSymptoms(symptom) {
+    const relatedSymptoms = symptoms_relation[symptom];
+    if (relatedSymptoms) {
+        const relatedDiv = document.createElement("div");
+        relatedDiv.setAttribute("class", "related-symptoms");
+
+        const title = document.createElement("p");
+        title.innerText = "Related Symptoms:";
+        relatedDiv.appendChild(title);
+
+        relatedSymptoms.forEach(function(relatedSymptom) {
+            const symptomButton = document.createElement("button");
+            symptomButton.setAttribute("class", "related-symptom-btn");
+            symptomButton.innerText = relatedSymptom;
+            symptomButton.onclick = function() { Functionsymptoms(relatedSymptom); };
+            relatedDiv.appendChild(symptomButton);
+        });
+
+        document.getElementById("sympbox").appendChild(relatedDiv);
+    }
+}
+
+function search_symptoms() { 
+    let input = document.getElementById('searchbar').value.toLowerCase(); 
+    let x = document.getElementsByClassName('dropdown-item'); 
+      
+    for (let i = 0; i < x.length; i++) {  
+        if (!x[i].innerHTML.toLowerCase().includes(input)) { 
+            x[i].style.display="none"; 
+        } else { 
+            x[i].style.display="inline-block";                  
+        } 
+    } 
+}
+
+$(document).ready(function() {
+    $("#predict").click(function(event) {
+        event.preventDefault();
+        var symptoms = document.getElementsByClassName("symptoms");
+        var noofsym = symptoms.length;
+        var symlist = [];
+
+        if (noofsym == 0) {
+            alert("Please add some symptoms");
+        } else {
+            for (let i = 0; i < symptoms.length; i++) {
+                symlist[i] = symptoms[i].value;
+            }
+
+            $("#resultdiv").show("slow");
+            $('html, body').animate({
+                scrollTop: $("#resultdiv").offset().top
+            }, 'slow');
+
+            $.ajax({
+                url: 'checkdisease',
+                type: "POST",
+                data: {
+                    "noofsym": noofsym,
+                    "symptoms": symlist,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                dataType: 'json',
+                success: function(data) {
+                    document.getElementById('diseasefield').innerText = data["predicteddisease"];
+                    document.getElementById('percentage').innerText = data["confidencescore"] + "%";
+                    let percent = data["confidencescore"];
+                    let disease = data["predicteddisease"];
+
+                    $('#percentage').css('width', percent + "%");
+                    document.getElementById('diseasesearch').innerText = disease;
+                    $("#href").attr("href", "https://www.google.com/search?q=" + disease);
+
+                    document.getElementById('consultdoctor').innerText = data["consultdoctor"];
+                    document.getElementById('description').innerText = data["disease_description"];
+                    document.getElementById('precautions').innerText = data["disease_precautions"];
+                    document.getElementById('diet').innerText = data["disease_diet"];
+                    document.getElementById('medications').innerText = data["disease_medications"];
+                    document.getElementById('workout').innerText = data["disease_workouts"];
+                }
+            });
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% block body %}
+
+
+
+
+
+<div class="container">
+      <!-- 
+  
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Dropdown button
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#">Something else here</a>
+    </div>
+  </div> -->
+
+
+  <div class="container">
+    <br>
+    <div class="text-center"> 
+      <h3>
+          Identify possible conditions and treatment related to your symptoms.
+      </h3><br>
+            <button onclick="Functionshow()" class="btn btn-primary dropdown-toggle">Add symptoms</button>
+    </div>
+  </div >
+
+  <div id="myDropdown" class="drop-content">
+
+        <div id="searchbardiv" class="searchbardiv">    
+      
+            <input id="searchbar" class="searchbar" onkeyup="search_symptoms()" type="text"
+              name="search" placeholder=" Search symptoms.. "> <br>
+        </div> 
+
+        <div class="container" id="container-dropdown">
+            {% for i in list2 %}
+            
+            <a class="dropdown-item" onclick="Functionsymptoms(this.textContent)">{{i}}</a>
+            
+            {% endfor %}
+        </div>
+  </div>
+        
+      
+    
+
+
+<!-- 
+
+<div class="dropdown">
+  
+    <button onclick="Functionshow()" class="dropbtn">Add symptoms</button>
+      
+  </div >
+    <div id="myDropdown" class="dropdown-content">
+
+     <div id="searchbardiv" class="searchbardiv">    
+      
+    <input id="searchbar" class="searchbar" onkeyup="search_symptoms()" type="text"
+    name="search" placeholder=" Search symptoms.. "> <br>
+  </div> 
+  <div>
+            {% for i in list2 %}
+            
+            <a class="links" onclick="Functionsymptoms(this.textContent)">{{i}}</a>
+            
+            {% endfor %}
+  </div>
+        </div>
+       -->
+    
+<br><br>
+  <div class="text-center">
+        <div class="card" id= "symptoms-box">
+    
+      {% csrf_token %}
+            <div class="card-header">Symptoms list -</div>
+                    <div class="card-body" id="sympbox" >
+                    </div>
+                          <br>
+                          <div class="card-footer">
+                                <button id="predict" class="btn btn-success">Predict</button>
+                          </div>
+             </div>
+        </div>
+  </div>
+
+  <br>
+
+
+  <!-- Modal Templates -->
+  <div class="modal fade" id="diseaseModal" tabindex="-1" aria-labelledby="diseaseModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="diseaseModalLabel">Disease</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <p>{{ predicted_disease }}</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="descriptionModalLabel">Description</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <p id="description">{{ disease_description }}</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="precautionModal" tabindex="-1" aria-labelledby="precautionModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="precautionModalLabel">Precautions</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <p id="precautions">{{ disease_precautions }}</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="medicationsModal" tabindex="-1" aria-labelledby="medicationsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="medicationsModalLabel">Medications</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <p id="medications">{{ disease_medications }}</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="workoutsModal" tabindex="-1" aria-labelledby="workoutsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="workoutsModalLabel">Workouts</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <p id="workout">{{ disease_workouts }}</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="dietModal" tabindex="-1" aria-labelledby="dietModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="dietModalLabel">Diet</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <p id="diet">{{ disease_diet }}</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div id="resultdiv" style="display: none;" >
+        <div class="text-center">
+              <div class="card" id="predicted-data">
+                    <div>
+                            <span class="diseasefield" >Patient name : {{ user.patient.name }}</span>
+                            <span class="diseasefield" >&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Age : {{ user.patient.age }} </span>
+                    </div>
+                    <span class="diseasefield" >predicted disease is : </span><span class="diseasefield" id="diseasefield" style="color: #092700; text-shadow: 2px 2px 4px rgb(36, 255, 45);"></span> <br>
+                    <br>
+                    <span class="diseasefield">confidence score of :  </span>
+                    <span>
+                          <div class="progress" style="display: inline-block;width:140px">
+                              <div id="percentage" class="progress-bar" style="width: 0%">0%
+                              </div>
+                          </div>
+                    </span>
+
+                    </div>
+              </div>
+<!-- Modern Toggle Buttons -->
+<div class="container">
+  <div class="result-container">
+      <button class="btn-18" data-bs-toggle="modal" data-bs-target="#descriptionModal">
+          <span class="text-container">
+            <span class="text">Description</span>
+          </span>
+      </button>
+      <button class="btn-18" data-bs-toggle="modal" data-bs-target="#precautionModal">
+          <span class="text-container">
+            <span class="text">Precaution</span>
+          </span>
+      </button>
+      <button class="btn-18" data-bs-toggle="modal" data-bs-target="#medicationsModal">
+          <span class="text-container">
+            <span class="text">Medications</span>
+          </span>
+      </button>
+      <button class="btn-18" data-bs-toggle="modal" data-bs-target="#workoutsModal">
+          <span class="text-container">
+            <span class="text">Workouts</span>
+          </span>
+      </button>
+      <button class="btn-18" data-bs-toggle="modal" data-bs-target="#dietModal">
+          <span class="text-container">
+            <span class="text">Diets</span>
+          </span>
+      </button>
+  </div>
+</div>
+
+
+
+<!-- Modal for Disease -->
+<div class="modal fade" id="diseaseModal" tabindex="-1" aria-labelledby="diseaseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="diseaseModalLabel">Disease</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{ predicted_disease }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Description -->
+<div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="descriptionModalLabel">Description</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="description">{{ disease_description }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Precaution -->
+<div class="modal fade" id="precautionModal" tabindex="-1" aria-labelledby="precautionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="precautionModalLabel">Precautions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="precautions">{{ disease_precautions }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Medications -->
+<div class="modal fade" id="medicationsModal" tabindex="-1" aria-labelledby="medicationsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="medicationsModalLabel">Medications</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="medications">{{ disease_medications }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Workouts -->
+<div class="modal fade" id="workoutsModal" tabindex="-1" aria-labelledby="workoutsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="workoutsModalLabel">Workouts</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="workout">{{ disease_workouts }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Diets -->
+<div class="modal fade" id="dietModal" tabindex="-1" aria-labelledby="dietModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dietModalLabel">Diet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p id="diet">{{ disease_diet }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div class="text-center mt-4 mb-4"> 
+              <button class="btn btn-outline-success">
+                    <a id="href" href="https://www.google.com/search?q=anuj" target="_blank" rel="noopener noreferrer">Click here to know more about &nbsp 
+                    <span id="diseasesearch" style="color: crimson;"></span></a>
+              </button>
+        </div>
+          <br><br>
+
+        <div class="text-center">
+          <h4>This tool does not provide medical advice. It is intended for informational purposes only.
+          </h4><h4>It is not a substitute for professional medical advice, diagnosis or treatment. 
+          </h4>
+        <br><br>
+
+        </div>
+
+
+<div class="mx-auto text-center " style="width:350px">
+  
+     
+        <div >  <form action="consult_a_doctor" method="GET">
+            {% csrf_token %} 
+            <button id="consultbtn" type="submit" class="btn btn-primary"> Consult a <span id="consultdoctor"  name="consultdoctor" > </span> doctor</button>
+          </form>
+        </div>
+      
+ 
+</div>
+
+         
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+{% endblock %}

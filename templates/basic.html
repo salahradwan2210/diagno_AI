@@ -1,0 +1,247 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+
+
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/img/favicons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/img/favicons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href=" {% static 'assets/img/favicons/favicon-16x16.png' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicons/favicon.ico'%}">
+    <link rel="manifest" href="{% static 'assets/img/favicons/manifest.json' %}">
+    <meta name="msapplication-TileImage" content=" {% static 'assets/img/favicons/mstile-150x150.png' %}">
+    <meta name="theme-color" content="#ffffff">
+
+    
+   <title>predico</title>
+   
+
+   <link href="{% static 'assets/css/theme.css' %}" rel="stylesheet" />
+
+
+   
+
+
+
+
+    {% block head %}
+
+
+
+    {% endblock %}
+
+
+  
+  </head>
+
+  <body style="margin-top:80px;">
+
+
+  <main class="main" id="top">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-light fixed-top py-3 d-block" style="backdrop-filter: blur(5px);box-shadow: 0px 0px 25px #0000006b;background-image: none;background-color: rgba(249, 250, 253, 0);" data-navbar-on-scroll="data-navbar-on-scroll">
+      <div class="container">
+
+          {% if user.patient %}
+              <a class="navbar-brand" href="{% url 'patient_ui' %}">
+                  <img src="{% static 'assets/img/gallery/logo2.png' %}" width="118" alt="logo" />
+              </a>
+          {% elif user.doctor %}
+              <a class="navbar-brand" href="{% url 'doctor_ui' %}">
+                  <img src="{% static 'assets/img/gallery/logo2.png' %}" width="118" alt="logo" />
+              </a>
+              {% else %}
+              <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'assets/img/gallery/logo2.png' %}" width="118" alt="logo" />
+            </a>
+          {% endif %}
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+              <span class="navbar-toggler-icon"></span>
+                  </button>
+             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+               <ul class="navbar-nav ms-auto pt-2 pt-lg-0 font-base"> 
+                        <li class="nav-item px-2"><a class="nav-link" href="{% url 'home' %}">Home</a>
+                          </li>
+                          <li class="nav-item px-2"><a class="nav-link" href="#about">About</a>
+                          </li>
+                          <li class="nav-item px-2"><a class="nav-link" href="#departments">Departments</a></li>
+
+                          <li class="nav-item px-2"><a class="nav-link" 
+                            href="{% url 'home' %}">Contact</a>
+                          </li>
+                          
+          
+          
+                        {% if user.is_authenticated %}
+                          
+                          {% if user.patient %}
+          
+                          <li class="nav-item ml-2">
+                          <li class="nav-link" href="{% url 'patient_ui' %}" style="color: rgb(24, 33, 69);">Hello, {{user.patient.name}}</li>
+                          </li>
+                          <li class="nav-item ml-2">
+                              <a class="nav-link" href="{% url 'patient_ui' %}">Profile</a>
+                              </li>
+          
+                          {% endif %}
+                          
+                          {% if user.doctor  %}
+          
+                          <li class="nav-item ml-2">
+                            <li class="nav-link" href="{% url 'doctor_ui' %}" style="color: rgb(24, 33, 69);">Hello, {{user.patient.name}}</li>
+                          </li>
+                            <li class="nav-item ml-2">
+                                <a class="nav-link" href="{% url 'doctor_ui' %}">Profile</a>
+                                </li>
+          
+          
+                          {% endif %}
+
+                          {% if user.is_superuser  %}
+          
+                          <li class="nav-item ml-2">
+                            <li class="nav-link" href="{% url 'admin_ui' %}" style="color: rgb(24, 33, 69);">Hello, {{user.patient.name}}</li>
+                          </li>
+                            <li class="nav-item ml-2">
+                                <a class="nav-link" href="{% url 'admin_ui' %}">Profile</a>
+                                </li>
+      
+          
+                          {% endif %}
+          
+
+                          <li class="nav-item ml-2">
+                      <a class="btn btn-danger btn-xs" href="{% url 'logout' %}">Log out</a>
+                            
+                          </li>
+                    </ul>
+     
+          
+          
+                          
+                                        
+                          {% else %}
+                          
+                              <a class="btn btn-sm btn-outline-primary rounded-pill order-1 order-lg-0 ms-lg-4"  data-toggle="modal" data-target=".bd-example-modal-lg2">Signup</a>
+                              <a class="btn btn-sm btn-outline-primary rounded-pill order-1 order-lg-0 ms-lg-4" data-toggle="modal" data-target=".bd-example-modal-lg">Signin</a>
+
+                          
+                          {% endif %}
+          
+
+          </div>
+
+        </div>
+    </nav>
+          
+
+
+
+    <!-- Large modal -->
+<div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <center>
+              <h1 style="font-size: 2.5rem; color: #333; margin-top: 20px;">Sign-up As</h1>
+          </center>
+          <br><br>
+          <center>
+              <form>
+                  <div class="container mt-5 mb-5">
+                      <div class="row" style="text-align: center;">
+                          <div class="col">
+                              <a href="{% url 'signup_doctor' %}">
+                                  <img alt="doctor" src="{% static 'homepage/doctor1.png' %}" 
+                                  style="width: 150px; height: auto; margin-bottom: 10px; transition: transform 0.2s ease-in-out;">
+                              </a>
+                              <p style="font-size: 1.2rem; color: #666; margin-top: 10px;">Doctor</p>
+                          </div>
+                          <div class="col">
+                              <a href="{% url 'signup_patient' %}">
+                                  <img alt="patient" src="{% static 'homepage/patient1.png' %}" 
+                                  style="width: 150px; height: auto; margin-bottom: 10px; transition: transform 0.2s ease-in-out;">
+                              </a>
+                              <p style="font-size: 1.2rem; color: #666; margin-top: 10px;">Patient</p>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </center>
+      </div>
+  </div>
+</div>
+
+
+<!-- Large modal -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <center>
+              <h1 style="font-size: 2.5rem; color: #333; margin-top: 20px;">Sign-In As</h1>
+          </center>
+          <br><br>
+          <center>
+              <form>
+                  <div class="container mt-5 mb-5">
+                      <div class="row" style="text-align: center;">
+                          <div class="col">
+                              <a href="{% url 'sign_in_doctor' %}">
+                                  <img alt="doctor" src="{% static 'homepage/doctor1.png' %}" 
+                                  style="width: 150px; height: auto; margin-bottom: 10px; transition: transform 0.2s ease-in-out;">
+                              </a>
+                              <p style="font-size: 1.2rem; color: #666; margin-top: 10px;">Doctor</p>
+                          </div>
+                          <div class="col">
+                              <a href="{% url 'sign_in_patient' %}">
+                                  <img alt="patient" src="{% static 'homepage/patient1.png' %}" 
+                                  style="width: 150px; height: auto; margin-bottom: 10px; transition: transform 0.2s ease-in-out;">
+                              </a>
+                              <p style="font-size: 1.2rem; color: #666; margin-top: 10px;">Patient</p>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </center>
+      </div>
+  </div>
+</div>
+
+
+
+
+  {% block body %}
+
+  {% endblock %}
+
+
+
+
+</div>
+</main>
+
+
+   <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   
+    <script src="https://code.jquery.com/jquery-3.4.1.js"integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script> 
+    <script src="{% static 'assets/js/theme.js' %}"></script>
+    <script src="{% static 'assets/vendors/@popperjs/popper.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/is/is.min.js' %}"></script>
+    <script src="https://scripts.sirv.com/sirvjs/v3/sirv.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="{% static 'assets/vendors/fontawesome/all.min.js' %}"></script>
+
+    
+</body>
+</html>

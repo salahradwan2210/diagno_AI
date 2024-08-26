@@ -1,0 +1,203 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'homepage/bootstrap/css/bootstrap.css' %}">
+    
+    <title>HealthCheck</title>
+    
+    <link rel="stylesheet" href="{% static 'homepage/css.css' %}">
+    
+    <style>
+      /* General Styles */
+      body {
+        background-color: #f0f0f0;
+        background-image: url("{% static 'new_image.jpg' %}");
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+        opacity: 0.95;
+        font-family: 'Roboto', sans-serif;
+      }
+
+      /* Header */
+      .page-header h1 {
+        color: #003366;
+        font-size: 2.5em;
+      }
+
+      .page-header h6 {
+        color: #007bff;
+        font-size: 1.2em;
+      }
+
+      /* Navbar */
+      .navbar {
+        background-color: #003366;
+        padding: 30px;
+      }
+
+      .navbar-brand, .nav-link {
+        color: white !important;
+        font-size: 16pt;
+      }
+
+      .nav-link.active {
+        color: #007bff !important;
+      }
+
+      /* Sign-In Section */
+      .signin-options {
+        display: flex;
+        justify-content: space-around;
+        padding: 50px 20px;
+      }
+
+      .signin-options img {
+        width: 120px;
+        transition: transform 0.3s ease;
+      }
+
+      .signin-options img:hover {
+        transform: scale(1.1);
+      }
+
+      /* Footer */
+      footer {
+        background-color: #003366;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      footer a {
+        color: white;
+        text-decoration: none;
+        margin: 0 10px;
+      }
+    </style>
+
+    {% block head %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">DiagnoAI</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}">Contact</a>
+            </li>
+
+            {% if user.is_authenticated %}
+              {% if user.patient %}
+              <li class="nav-item ml-2">
+                <a class="nav-link" href="{% url 'patient_ui' %}">Profile</a>
+              </li>
+                <li class="nav-item ml-2">
+                  <a class="nav-link active" href="{% url 'patient_ui' %}">Hello, {{user.patient.name}}</a>
+                </li>
+                
+              {% endif %}
+              {% if user.doctor %}
+                <li class="nav-item ml-2">
+                  <a class="nav-link active" href="{% url 'doctor_ui' %}">Hello, Dr. {{user.doctor.name}}</a>
+                  h1 
+                </li>
+                <li class="nav-item ml-2">
+                  <a class="nav-link" href="{% url 'doctor_ui' %}">Profile</a>
+                </li>
+              {% endif %}
+              {% if user.is_superuser %}
+              <li class="nav-item ml-2">
+                <a class="nav-link" href="{% url 'admin_ui' %}">Profile</a>
+              </li>
+                <li class="nav-item ml-2">
+                  <a class="nav-link active" href="{% url 'admin_ui' %}">Admin: {{user.username}}</a>
+                </li>
+                
+              {% endif %}
+              <li class="nav-item ml-2">
+                <a href="{% url 'logout' %}" style="font-size: 16pt;" class="btn btn-danger btn-block">Logout</a>
+
+              </li>
+            {% else %}
+              <li class="nav-item ml-2">
+                <a class="nav-link" data-toggle="modal" data-target=".bd-example-modal-lg2">Signup</a>
+              </li>
+              <li class="nav-item ml-2">
+                <a class="nav-link" data-toggle="modal" data-target=".bd-example-modal-lg">Signin</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Modal for Sign-In -->
+      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <center>
+              <h1>Sign-In As</h1>
+            </center>
+            <br><br>
+            <center>
+              <form>
+                <div class="container mt-5 mb-5">
+                  <div class="row signin-options">
+                    <div class="col">
+                      <a href="{% url 'sign_in_admin' %}">
+                        <img alt="admin" src="{% static 'homepage/admin1.png' %}">
+                      </a>
+                    </div>
+                    <div class="col">
+                      <a href="{% url 'sign_in_doctor' %}">
+                        <img alt="doctor" src="{% static 'homepage/doctor1.png' %}">
+                      </a>
+
+                    </div>
+                    <div class="col">
+                      <a href="{% url 'sign_in_patient' %}">
+                        <img alt="patient" src="{% static 'homepage/patient1.png' %}">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </center>
+          </div>
+        </div>
+      </div>
+
+      {% block body %}
+      {% endblock %}
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

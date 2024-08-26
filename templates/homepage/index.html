@@ -1,0 +1,476 @@
+﻿
+{% extends "basic.html" %}
+{% load static %}
+
+ 
+	{% block head %}
+
+
+{% endblock %}
+
+
+
+
+{% block body %}
+
+<style>
+   .bg {
+        padding: 4rem 2rem;
+        border-radius: 1rem;
+    }
+    .jumbotron {
+        background-color: #007bff;
+        color: white;
+        padding: 4rem 2rem;
+        border-radius: 1rem;
+    }
+
+    .icon-box .deparment-icon1 {
+ width: auto; 
+ height: 60px;
+ filter: brightness(0) saturate(100%) invert(61%) sepia(10%) saturate(369%) hue-rotate(205deg) brightness(93%) contrast(88%);
+}
+
+.icon-box:hover .deparment-icon1 {
+
+ filter: brightness(0) saturate(100%) invert(34%) sepia(62%) saturate(795%) hue-rotate(161deg) brightness(93%) contrast(88%);
+}
+
+  </style>
+  <section class="py-xxl-10 pb-0" id="home">
+    <div class="bg-holder bg-size" style="background-image:url(/static/assets/img/gallery/hero-bg.png);background-position:top center;background-size:cover; z-index: -1;">
+    </div>
+    <!--/.bg-holder-->
+
+    <div class="container">
+      <div class="row min-vh-xl-100 min-vh-xxl-25">
+        <div class="col-md-5 col-xl-6 col-xxl-7 order-0 order-md-1 text-end"><img class="pt-7 pt-md-0 w-100" src="{% static 'assets/img/gallery/hero.png' %}" alt="hero-header" /></div>
+        <div class="col-md-75 col-xl-6 col-xxl-5 text-md-start text-center py-6">
+          <h1 class="fw-light font-base fs-6 fs-xxl-7">We're <strong>determined </strong>for<br />your&nbsp;<strong>better life.</strong></h1>
+          <p class="fs-1 mb-5">
+            DiagnoAi is a cutting-edge web app that uses AI to diagnose diseases based on your symptoms, provides detailed descriptions, suggests medications, and offers an option to consult with doctors for personalized care.</p>
+          <a class="btn btn-lg btn-primary rounded-pill" data-toggle="modal" data-target=".bd-example-modal-lg" role="button">Get started</a>
+                </div>
+      </div>
+    </div>
+      
+  
+     {% if user.is_authenticated %}
+
+     
+     {% else %}
+  </section>
+
+
+
+
+
+
+
+    
+
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+<section class="py-5" id="departments">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12 py-3">
+        <div class="bg-holder bg-size" style="background-image:url(/static/assets/img/gallery/bg-departments.png);background-position:top center;background-size:contain; z-index: 1;">
+        </div>
+        <!--/.bg-holder-->
+
+        <h1 class="text-center">OUR DEPARTMENTS</h1>
+      </div>
+    </div>
+  </div>
+  <!-- end of .container-->
+
+</section>
+<section class="py-0">
+  <div class="container">
+    <div class="row py-5 align-items-center justify-content-center">
+      <!-- First Row: 5 items -->
+      <div class="col-6 col-md-4 col-lg-2 text-xl-start">
+        <div class="d-flex flex-column align-items-center">
+          <div class="icon-box text-center">
+            <a class="text-decoration-none" href="#!">
+              <img class="mb-3 deparment-icon1" src="{% static 'assets/img/icons/heart.png' %}" alt="..." />
+              <p class="fs-1 fs-xxl-2 text-center">Cardiologist</p>
+            </a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-6 col-md-4 col-lg-2 text-xl-start">
+        <div class="d-flex flex-column align-items-center">
+          <div class="icon-box text-center">
+            <a class="text-decoration-none" href="#!">
+              <img class="mb-3 deparment-icon1" src="{% static 'assets/img/icons/ent.png' %}" alt="..." />
+              <p class="fs-1 fs-xxl-2 text-center">ENT Specialist</p>
+            </a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-6 col-md-4 col-lg-2 text-xl-start">
+        <div class="d-flex flex-column align-items-center">
+          <div class="icon-box text-center">
+            <a class="text-decoration-none" href="#!">
+              <img class="mb-3 deparment-icon1" src="{% static 'assets/img/icons/osteoporosis.png' %}" alt="..." />
+              <p class="fs-1 fs-xxl-2 text-center">Orthopedist</p>
+            </a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-6 col-md-4 col-lg-2 text-xl-start">
+        <div class="d-flex flex-column align-items-center">
+          <div class="icon-box text-center">
+            <a class="text-decoration-none" href="#!">
+              <img class="mb-3 deparment-icon1" src="{% static 'assets/img/icons/eye-care.png' %}" alt="..." />
+              <p class="fs-1 fs-xxl-2 text-center">Eye care</p>
+            </a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-6 col-md-4 col-lg-2 text-xl-start">
+        <div class="d-flex flex-column align-items-center">
+          <div class="icon-box text-center">
+            <a class="text-decoration-none" href="#!">
+              <img class="mb-3 deparment-icon1" src="{% static 'assets/img/icons/neurology.png' %}" alt="..." />
+              <p class="fs-1 fs-xxl-2 text-center">Neurologist</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row py-5 align-items-center justify-content-center">
+      <!-- Second Row: 4 items -->
+      <div class="col-6 col-md-4 col-lg-3 text-xl-start">
+        <div class="d-flex flex-column align-items-center">
+          <div class="icon-box text-center">
+            <a class="text-decoration-none" href="#!">
+              <img class="mb-3 deparment-icon1" src="{% static 'assets/img/icons/cardiac.png' %}" alt="..." style="width: 60px; height: 50px;" />
+              <p class="fs-1 fs-xxl-2 text-center">Allergy & Immune Care</p>
+            </a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-6 col-md-4 col-lg-3 text-xl-start">
+        <div class="d-flex flex-column align-items-center">
+          <div class="icon-box text-center">
+            <a class="text-decoration-none" href="#!">
+              <img class="mb-3 deparment-icon1" src="{% static 'assets/img/icons/urinary.png' %}" alt="..." />
+              <p class="fs-1 fs-xxl-2 text-center">Urologist</p>
+            </a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-6 col-md-4 col-lg-3 text-xl-start">
+        <div class="d-flex flex-column align-items-center">
+          <div class="icon-box text-center">
+            <a class="text-decoration-none" href="#!">
+              <img class="mb-3 deparment-icon1" src="{% static 'assets/img/icons/dermatologist.png' %}" alt="..." />
+              <p class="fs-1 fs-xxl-2 text-center">Dermatologist</p>
+            </a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-6 col-md-4 col-lg-3 text-xl-start">
+        <div class="d-flex flex-column align-items-center">
+          <div class="icon-box text-center">
+            <a class="text-decoration-none" href="#!">
+              <img class="mb-3 deparment-icon1" src="{% static 'assets/img/icons/stomach.png' %}" alt="..." />
+              <p class="fs-1 fs-xxl-2 text-center">Gastroenterologi</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- end of .container-->
+</section>
+
+<section class="pb-0" id="about">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12 py-3">
+        <div class="bg-holder bg-size" style="background-image:url(/static/assets/img/gallery/about-us.png);background-position:top center;background-size:contain;">
+        </div>
+        <!--/.bg-holder-->
+
+        <h1 class="text-center">ABOUT US</h1>
+      </div>
+    </div>
+  </div>
+  <!-- end of .container-->
+
+</section>
+<section class="py-5">
+  <div class="bg-holder bg-size" style="background-image:url(/static/assets/img/gallery/about-bg.png);background-position:top center;background-size:contain;">
+  </div>
+  <!--/.bg-holder-->
+
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6 order-lg-1 mb-5 mb-lg-0"><img class="fit-cover rounded-circle w-100" src="/static/assets/img/gallery/diagnoai.jpg" alt="..." /></div>
+      <div class="col-md-6 text-center text-md-start">
+        <h2 class="fw-bold mb-4">We are developing a DiagnoAi <br class="d-none d-sm-block" />system around you</h2>
+        <p>
+          DiagnoAi is an innovative web application designed to revolutionize the way you approach your health.
+          <br class="d-none d-sm-block" />
+          Leveraging advanced artificial intelligence, DiagnoAi quickly and accurately identifies potential diseases
+          <br class="d-none d-sm-block" />
+          based on your symptoms. Our goal is to provide a seamless healthcare experience that offers comprehensive
+          <br class="d-none d-sm-block" />
+          diagnosis, tailored treatment options, and access to qualified doctors whenever and wherever you need it.
+      </p>        <div class="py-3">
+          <button class="btn btn-lg btn-outline-primary rounded-pill" type="submit">Learn more </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="pb-0">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12 py-3">
+        <div class="bg-holder bg-size" style="background-image:url(/static/assets/img/gallery/doctors-us.png);background-position:top center;background-size:contain;">
+        </div>
+        <!--/.bg-holder-->
+
+        <h1 class="text-center">OUR DOCTORS</h1>
+      </div>
+    </div>
+  </div>
+  <!-- end of .container-->
+
+</section>
+<section class="py-5">
+  <div class="bg-holder bg-size" style="background-image:url(/static/assets/img/gallery/doctors-bg.png);background-position:top center;background-size:contain;">
+  </div>
+  <!--/.bg-holder-->
+
+  <div class="container">
+    <div class="row flex-center">
+      <div class="col-xl-10 px-0">
+        <div class="carousel slide" id="carouselExampleDark" data-bs-ride="carousel"><a class="carousel-control-prev carousel-icon z-index-2" href="#carouselExampleDark" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></a><a class="carousel-control-next carousel-icon z-index-2" href="#carouselExampleDark" role="button" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></a>
+          <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+              <div class="row h-100 m-lg-7 mx-3 mt-6 mx-md-4 my-md-7">
+                <div class="col-md-4 mb-8 mb-md-0">
+                  <div class="card card-span h-100 shadow">
+                    <div class="card-body d-flex flex-column flex-center py-5"><img src="/static/assets/img/gallery/anita.png" width="128" alt="..." />
+                      <h5 class="mt-3">Anita Deshai</h5>
+                      <p class="mb-0 fs-xxl-1">Pediatrics, Gochi Medicine</p>
+                      <p class="text-600 mb-0">Florida, United States</p>
+                      <p class="text-600 mb-4">10 years experience</p>
+                      <div class="text-center">
+                        <button class="btn btn-outline-secondary rounded-pill" type="submit">View Profile</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-8 mb-md-0">
+                  <div class="card card-span h-100 shadow">
+                    <div class="card-body d-flex flex-column flex-center py-5"><img src="/static/assets/img/gallery/jane.png" width="128" alt="..." />
+                      <h5 class="mt-3">Jane Flakis</h5>
+                      <p class="mb-0 fs-xxl-1">Gynaecology, Abenka Care</p>
+                      <p class="text-600 mb-0">Melbourne, Australia</p>
+                      <p class="text-600 mb-4">12 years experience</p>
+                      <div class="text-center">
+                        <button class="btn btn-outline-secondary rounded-pill" type="submit">View Profile</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-8 mb-md-0">
+                  <div class="card card-span h-100 shadow">
+                    <div class="card-body d-flex flex-column flex-center py-5"><img src="/static/assets/img/gallery/leo-mario.png" width="128" alt="..." />
+                      <h5 class="mt-3">Leo Mario</h5>
+                      <p class="mb-0 fs-xxl-1">Physiotherapy, FitCare</p>
+                      <p class="text-600 mb-0">London, England</p>
+                      <p class="text-600 mb-4">25 years experience</p>
+                      <div class="text-center">
+                        <button class="btn btn-outline-secondary rounded-pill" type="submit">View Profile</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+              <div class="row h-100 m-lg-7 mx-3 mt-6 mx-md-4 my-md-7">
+                <div class="col-md-4 mb-8 mb-md-0">
+                  <div class="card card-span h-100 shadow">
+                    <div class="card-body d-flex flex-column flex-center py-5"><img src="/static/assets/img/gallery/anita.png" width="128" alt="..." />
+                      <h5 class="mt-3">Anita Deshai</h5>
+                      <p class="mb-0 fs-xxl-1">Pediatrics, Gochi Medicine</p>
+                      <p class="text-600 mb-0">Florida, United States</p>
+                      <p class="text-600 mb-4">10 years experience</p>
+                      <div class="text-center">
+                        <button class="btn btn-outline-secondary rounded-pill" type="submit">View Profile</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-8 mb-md-0">
+                  <div class="card card-span h-100 shadow">
+                    <div class="card-body d-flex flex-column flex-center py-5"><img src="/static/assets/img/gallery/jane.png" width="128" alt="..." />
+                      <h5 class="mt-3">Jane Flakis</h5>
+                      <p class="mb-0 fs-xxl-1">Gynaecology, Abenka Care</p>
+                      <p class="text-600 mb-0">Melbourne, Australia</p>
+                      <p class="text-600 mb-4">12 years experience</p>
+                      <div class="text-center">
+                        <button class="btn btn-outline-secondary rounded-pill" type="submit">View Profile</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-8 mb-md-0">
+                  <div class="card card-span h-100 shadow">
+                    <div class="card-body d-flex flex-column flex-center py-5"><img src="/static/assets/img/gallery/leo-mario.png" width="128" alt="..." />
+                      <h5 class="mt-3">Leo Mario</h5>
+                      <p class="mb-0 fs-xxl-1">Physiotherapy, FitCare</p>
+                      <p class="text-600 mb-0">London, England</p>
+                      <p class="text-600 mb-4">25 years experience</p>
+                      <div class="text-center">
+                        <button class="btn btn-outline-secondary rounded-pill"  type="submit">View Profile</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row h-100 m-lg-7 mx-3 mt-6 mx-md-4 my-md-7">
+                <div class="col-md-4 mb-8 mb-md-0">
+                  <div class="card card-span h-100 shadow">
+                    <div class="card-body d-flex flex-column flex-center py-5"><img src="/static/assets/img/gallery/anita.png" width="128" alt="..." />
+                      <h5 class="mt-3">Anita Deshai</h5>
+                      <p class="mb-0 fs-xxl-1">Pediatrics, Gochi Medicine</p>
+                      <p class="text-600 mb-0">Florida, United States</p>
+                      <p class="text-600 mb-4">10 years experience</p>
+                      <div class="text-center">
+                        <button class="btn btn-outline-secondary rounded-pill" type="submit">View Profile</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-8 mb-md-0">
+                  <div class="card card-span h-100 shadow">
+                    <div class="card-body d-flex flex-column flex-center py-5"><img src="/static/assets/img/gallery/jane.png" width="128" alt="..." />
+                      <h5 class="mt-3">Jane Flakis</h5>
+                      <p class="mb-0 fs-xxl-1">Gynaecology, Abenka Care</p>
+                      <p class="text-600 mb-0">Melbourne, Australia</p>
+                      <p class="text-600 mb-4">12 years experience</p>
+                      <div class="text-center">
+                        <button class="btn btn-outline-secondary rounded-pill" type="submit">View Profile</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-8 mb-md-0">
+                  <div class="card card-span h-100 shadow">
+                    <div class="card-body d-flex flex-column flex-center py-5"><img src="/static/assets/img/gallery/leo-mario.png" width="128" alt="..." />
+                      <h5 class="mt-3">Leo Mario</h5>
+                      <p class="mb-0 fs-xxl-1">Physiotherapy, FitCare</p>
+                      <p class="text-600 mb-0">London, England</p>
+                      <p class="text-600 mb-4">25 years experience</p>
+                      <div class="text-center">
+                        <button class="btn btn-outline-secondary rounded-pill" type="submit">View Profile</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  
+
+<br><br><br><br>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="footer" class="card bg-dark text-white" style="margin: 0px 30px 30px 30px;">
+      <div class="card-body">
+        Contact-
+     
+    <ul >
+     
+      <li >
+        <h5 class="m-b-23" style="color: #fff">Email: Diagno_AI.com</h5>
+      </li>
+      <li >
+        <h5 class="m-b-23" style="color: #fff">Contact no. +20*******</h5>
+      </li>
+      <li >
+        <h5 class="m-b-23" style="color: #fff">Address: Delta University</h5>
+        <div class="footer-copyright text-center">© 2024 bioinformatics🧬❤️:
+          <a href="#"> DiagnoAI.com</a>
+        </div>
+      </li>
+      
+    </ul>
+  </div>
+  </div>
+
+  
+ 
+
+
+
+
+
+</div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    
+
+
+
+
+    
+{% endblock %}
